@@ -1,0 +1,6 @@
+include README.md EVALUATION.md LICENSE
+recursive-include assets *.png
+recursive-include scripts *.sh *.sbatch
+recursive-include softmaxgrpo/configs *.yaml
+recursive-include tests *.py
+global-exclude *.py[cod]

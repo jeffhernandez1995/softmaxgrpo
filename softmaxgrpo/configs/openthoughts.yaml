@@ -1,0 +1,25 @@
+defaults:
+  - base
+  - _self_
+
+experiment: openthoughts_sim
+algorithm:
+  softmaxgrpo_tau: 0.3
+data:
+  train_files: ${oc.env:DATA_DIR,data}/openthoughts_sim/train.parquet
+  val_files: ${oc.env:DATA_DIR,data}/openthoughts_sim/validation.parquet
+  train_batch_size: 512
+  max_prompt_length: 2048
+  max_response_length: 6144
+actor_rollout_ref:
+  actor:
+    ppo_micro_batch_size_per_gpu: 4
+  rollout:
+    n: 8
+trainer:
+  total_training_steps: 3220
+  nnodes: ${oc.env:NNODES,2}
+
+hydra:
+  searchpath:
+    - pkg://verl.trainer.config

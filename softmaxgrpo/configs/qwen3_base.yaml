@@ -1,0 +1,41 @@
+defaults:
+  - base
+  - _self_
+
+experiment: qwen3_1.7b_polaris
+algorithm:
+  softmaxgrpo_tau: 0.3
+data:
+  train_files: ${oc.env:DATA_DIR,data}/qwen3/train.parquet
+  val_files:
+    - ${oc.env:DATA_DIR,data}/qwen3/aime25.parquet
+    - ${oc.env:DATA_DIR,data}/qwen3/math500.parquet
+  train_batch_size: 256
+  max_prompt_length: 1024
+  max_response_length: 4096
+  seed: 79
+actor_rollout_ref:
+  model:
+    path: Qwen/Qwen3-1.7B-Base
+  actor:
+    clip_ratio_high: 0.2
+    grad_clip: 0.3
+    use_kl_loss: false
+  rollout:
+    n: 16
+    max_model_len: 32000
+    max_num_batched_tokens: 32000
+    gpu_memory_utilization: 0.7
+    top_p: 1.0
+    val_kwargs:
+      n: 32
+      do_sample: true
+      temperature: 0.6
+      top_p: 0.95
+      top_k: -1
+trainer:
+  nnodes: ${oc.env:NNODES,4}
+  total_training_steps: null
+  total_epochs: 5
+  test_freq: 50
+  save_freq: 50

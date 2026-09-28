@@ -1,0 +1,25 @@
+defaults:
+  - base
+  - _self_
+
+experiment: gsm8k_exact
+algorithm:
+  softmaxgrpo_tau: 0.1
+data:
+  train_files: ${oc.env:DATA_DIR,data}/gsm8k_exact/train.parquet
+  val_files: ${oc.env:DATA_DIR,data}/gsm8k_exact/validation.parquet
+  train_batch_size: 64
+  max_prompt_length: 1024
+  max_response_length: 256
+actor_rollout_ref:
+  actor:
+    ppo_micro_batch_size_per_gpu: 4
+  rollout:
+    n: 8
+trainer:
+  total_training_steps: 1000
+  nnodes: ${oc.env:NNODES,1}
+
+hydra:
+  searchpath:
+    - pkg://verl.trainer.config

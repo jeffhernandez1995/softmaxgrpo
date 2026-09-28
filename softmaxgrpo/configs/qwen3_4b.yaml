@@ -1,0 +1,12 @@
+defaults:
+  - qwen3_base
+  - _self_
+
+experiment: qwen3_4b_polaris
+actor_rollout_ref:
+  model:
+    path: Qwen/Qwen3-4B-Base
+
+hydra:
+  searchpath:
+    - pkg://verl.trainer.config
